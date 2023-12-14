@@ -17,5 +17,23 @@ const fs = require('fs');
 const path = require('path');
 const app = express();
 
+app.get("/files", async (req,res)=>{
+    fs.readdir(path.join(__dirname , "./files/"), (err,files)=>{
+        if (err){
+            res.status(404).json({error:err});
+        }
+        res.status(200).json(files);
+    })
+})
+
+
+app.all('*', (req, res) => {
+    res.status(404).send('no route found');
+});
+
+app.listen(3000, ()=>{
+    console.log("server hitting...")
+})
+
 
 module.exports = app;
